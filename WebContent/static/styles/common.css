@@ -1,0 +1,49 @@
+@CHARSET "UTF-8";
+
+/*common reset start*/
+body,div,ul,dd,dl,li,h1,h2,h3,h4,h5,h6,form,input,p {
+	margin: 0;
+	padding: 0;
+}
+
+article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary,time,mark,audio,video
+	{
+	display: block;
+	margin: 0;
+	padding: 0
+}
+
+img {
+	border: 0;
+}
+
+input {
+	vertical-align: middel;
+}
+
+ol,ul,li {
+	list-style: none;
+}
+
+h1,h2,h3,h4,h5,h6 {
+	font-size: 100%;
+	font-weight: normal;
+}
+
+a {
+	text-decoration: none;
+	color: #F47C20;
+	outline: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+textarea {
+	font-size: 12px;
+	resize: none;
+}
+/*common reset end*/
+
+

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.augmentum.oes.modle.PaperQuestion">
+    <resultMap type="PaperQuestion" id="paperQuestionMap">
+        <id column="id" property="id"/>
+        <result column="exam_id" property="examId" />
+        <result column="name" property="name" />
+        <result column="option_A" property="optionA" />
+        <result column="option_B" property="optionB" />
+        <result column="option_C" property="optionC" />
+        <result column="option_D" property="optionD" />
+        <result column="answer" property="answer" />
+        <result column="question_id" property="questionId" />
+    </resultMap>
+    
+    <insert id="create" parameterType="PaperQuestion" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO `online_exam_system`.`paper_question` 
+            (`exam_id`, `name`, `option_A`, `option_B`, `option_C`, `option_D`, `answer`, `question_id`) 
+            VALUES 
+                (#{examId}, #{name}, #{optionA}, #{optionB}, #{optionC}, #{optionD}, #{answer}, #{questionId})
+        ]]>
+    </insert>
+
+</mapper>

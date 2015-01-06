@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.augmentum.oes.modle.Question">
+    <resultMap type="Question" id="questionMap">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="option_A" property="optionA"/>
+        <result column="option_B" property="optionB"/>
+        <result column="option_C" property="optionC"/>
+        <result column="option_D" property="optionD"/>
+        <result column="answer" property="answer"/>
+        <result column="user_id" property="userId"/>
+        <result column="last_updated_time" property="lastUpdatedTime"/>
+    </resultMap>
+    
+    <insert id="create" parameterType="Question" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO `online_exam_system`.`question`
+                (`title`, `option_A`, `option_B`, `option_C`, `option_D`, `answer`, `user_id`, `create_time`, `last_updated_time`)
+            VALUES
+                (#{title}, #{optionA}, #{optionB}, #{optionC}, #{optionD}, #{answer}, #{userId}, NOW(), NOW())
+        ]]>
+    </insert>
+    
+    <delete id="delete" parameterType="int">
+        <![CDATA[
+            UPDATE 
+                `online_exam_system`.`question` 
+            SET 
+                `last_updated_time` = NOW(), `deleted` = 1 
+            WHERE 
+                `id` = #{id}
+        ]]>
+    </delete>
+    
+    <update id="update" parameterType="Question">
+        <![CDATA[
+            UPDATE
+                `online_exam_system`.`question`
+            SET
+                `title` = #{title}, `option_A` = #{optionA}, `option_B` = #{optionB}, `option_C` = #{optionC},`option_D` = #{optionD}, `answer` = #{answer}, `user_id` = #{userId}, `last_updated_time` = NOW()
+            WHERE
+                `id` = #{id}
+        ]]>
+    </update>
+    
+    <select id="getById" parameterType="int" resultMap="questionMap">
+        <![CDATA[
+            SELECT 
+                `id`, `title`, `option_A`, `option_B`, `option_C`, `option_D`, `answer`, `user_id` 
+            FROM
+                `online_exam_system`.`question` 
+            WHERE 
+                `deleted` = 0 AND `id` = #{id}
+        ]]>
+    </select>
+
+    <select id="queryQuestion" parameterType="map" resultMap="questionMap">
+        <![CDATA[
+            SELECT
+                `id`, `title`, `option_A`, `option_B`, `option_C`, `option_D`, `answer`,
+                `user_id`, `create_time`, `last_updated_time`
+            FROM
+                `online_exam_system`.`question`
+            WHERE
+                `deleted` = 0 
+        ]]>
+    <if test = "keyword != null and keyword != ''">
+        <![CDATA[
+            AND title LIKE #{keyword}
+        ]]>
+    </if>
+        <![CDATA[
+            ORDER BY `last_updated_time` DESC LIMIT #{offSet}, #{pageSize}
+        ]]>
+    </select>
+    
+    <select id="getTotal" parameterType="map" resultType="int">
+        <![CDATA[
+            SELECT
+                COUNT(*)
+            FROM
+                `online_exam_system`.`question`
+            WHERE
+                `deleted` = 0 
+        ]]>
+    <if test = "keyword != null and keyword != ''">
+        <![CDATA[
+            AND title LIKE #{keyword}
+        ]]>
+    </if>
+    </select>
+    
+    <select id="queryRandom" parameterType="int" resultMap="questionMap">
+        <![CDATA[
+            SELECT 
+                `id`, `title`, `option_A`, `option_B`, `option_C`, `option_D`, `answer`
+            FROM 
+                `online_exam_system`.`question` 
+            WHERE 
+                `deleted` = 0 
+            ORDER BY 
+                RAND() LIMIT #{amount}
+        ]]>
+    </select>
+    
+    <select id="queryquestions" parameterType="map" resultMap="questionMap">
+        <![CDATA[
+            SELECT
+                `id`, `title`, `option_A`, `option_B`, `option_C`, `option_D`, `answer`,
+                `user_id`, `create_time`, `last_updated_time`
+            FROM
+                `online_exam_system`.`question`
+            WHERE
+                `deleted` = 0 
+        ]]>
+    <if test = "keyword != null and keyword != ''">
+        <![CDATA[
+            AND title LIKE #{keyword}
+        ]]>
+    </if>
+    <![CDATA[
+            ORDER BY ${field}
+    ]]>
+    <choose>
+        <when test="method == 'DESC'">
+            <![CDATA[
+            DESC
+            ]]>
+        </when>
+        <otherwise>
+            <![CDATA[
+            ASC
+            ]]>
+        </otherwise>
+    </choose>
+        <![CDATA[
+            LIMIT #{offSet}, #{pageSize}
+        ]]>
+    </select>
+    
+</mapper>
