@@ -37,7 +37,7 @@
         Exam Management
       </div>
       <div id="title-search">
-        Question Title:
+        Exam Title:
         <input type="text" class="style-text" name="title" id="title" value="${keyword}" />
         <input type="button" class="picButton" id="dosearch" value="Search"/>
       </div>
